@@ -1,70 +1,68 @@
-# Getting Started with Create React App
+# Search Interface UI
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, responsive search interface built with React.js that replicates the design and functionality shown in the provided mockups.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Real-time Search**: Live search with instant filtering and highlighting
+- **Category Filtering**: Filter results by All, Files, People, and Chats
+- **Advanced Settings**: Toggle switches to enable/disable different content types
+- **Responsive Design**: Works seamlessly on desktop and mobile devices
+- **Smooth Animations**: Subtle animations and transitions for better UX
+- **Search Highlighting**: Matching search terms are highlighted in results
 
-### `npm start`
+## Components
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- `SearchCard`: Main container component with search bar and filters
+- `SearchResultItem`: Individual result item component for different content types
+- `FilterDropdown`: Settings dropdown with toggle switches
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Technologies Used
 
-### `npm test`
+- React.js 19.1.1
+- React Icons for UI icons
+- CSS3 with modern features (Grid, Flexbox, Animations)
+- Responsive design principles
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting Started
 
-### `npm run build`
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. Start the development server:
+   ```bash
+   npm start
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Deployment
 
-### `npm run eject`
+The app is ready for deployment on platforms like:
+- Netlify
+- Vercel
+- GitHub Pages
+- Any static hosting service
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+To build for production:
+```bash
+npm run build
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Design Features
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Clean, modern UI with subtle shadows and rounded corners
+- Consistent color scheme with proper contrast ratios
+- Smooth hover effects and transitions
+- Skeleton loading states
+- Status indicators for users (active, inactive, etc.)
+- File type icons and metadata display
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Browser Support
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)

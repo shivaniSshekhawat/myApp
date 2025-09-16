@@ -1,23 +1,22 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import SearchCard from './components/SearchCard';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <a
+        className="github-link"
+        href="https://github.com/shivaniSshekhawat"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Open GitHub profile @shivaniSshekhawat"
+      >
+        @shivaniSshekhawat
+      </a>
+      <div className="app-container">
+        <SearchCard />
+      </div>
     </div>
   );
 }
