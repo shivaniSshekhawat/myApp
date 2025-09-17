@@ -17,6 +17,9 @@ function App() {
       <div className="app-container">
         <SearchCard />
       </div>
+      <footer className="footer-note" role="contentinfo">
+        This project is an assignment for educational purposes only. All images are credited to their respective owners (e.g., Unsplash). No commercial use intended.
+      </footer>
     </div>
   );
 }
