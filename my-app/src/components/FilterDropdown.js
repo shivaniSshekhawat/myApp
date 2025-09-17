@@ -20,12 +20,24 @@ const FilterDropdown = ({ filterOptions, enabledFilters, onToggle, onClose }) =>
   return (
     <div className="filter-dropdown">
       {filterOptions.map((option) => (
-        <div key={option.id} className={`filter-option ${option.disabled ? 'disabled' : ''}`}>
+        <div
+          key={option.id}
+          className={`filter-option ${option.disabled ? 'disabled' : ''}`}
+          role={!option.disabled ? 'button' : undefined}
+          tabIndex={!option.disabled ? 0 : undefined}
+          onClick={() => { if (!option.disabled) onToggle(option.id); }}
+          onKeyDown={(e) => {
+            if (!option.disabled && (e.key === 'Enter' || e.key === ' ')) {
+              e.preventDefault();
+              onToggle(option.id);
+            }
+          }}
+        >
           <div className="filter-option-content">
             {getIcon(option.icon)}
             <span className="filter-option-label">{option.label}</span>
           </div>
-          <div className="toggle-switch">
+          <div className="toggle-switch" onClick={(e) => e.stopPropagation()}>
             <input
               type="checkbox"
               id={option.id}
@@ -34,7 +46,7 @@ const FilterDropdown = ({ filterOptions, enabledFilters, onToggle, onClose }) =>
               className="toggle-input"
               disabled={!!option.disabled}
             />
-            <label htmlFor={option.id} className={`toggle-label ${option.disabled ? 'disabled' : ''}`}>
+            <label htmlFor={option.id} className={`toggle-label ${option.disabled ? 'disabled' : ''}`} onClick={(e) => e.stopPropagation()}>
               <span className="toggle-slider"></span>
             </label>
           </div>
