@@ -87,7 +87,7 @@ const SearchCard = () => {
     return 0;
   };
 
-  // Count-up animation: always count from 0 → target when inputs change
+  // Count-up animation: only when searching (searchTerm changes)
   useEffect(() => {
     const target = {
       all: getCountByCategory('all'),
@@ -120,7 +120,22 @@ const SearchCard = () => {
       if (counterTimerRef.current) clearInterval(counterTimerRef.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchTerm, activeFilter, enabledFilters]);
+  }, [searchTerm]);
+
+  // When switching tabs or toggling filters, set counts immediately (no animation)
+  useEffect(() => {
+    const target = {
+      all: getCountByCategory('all'),
+      files: getCountByCategory('files'),
+      people: getCountByCategory('people'),
+      chats: getCountByCategory('chats')
+    };
+    setDisplayCounts(target);
+    if (counterTimerRef.current) {
+      clearInterval(counterTimerRef.current);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeFilter, enabledFilters]);
 
   const handleClearSearch = () => {
     setSearchTerm('');
