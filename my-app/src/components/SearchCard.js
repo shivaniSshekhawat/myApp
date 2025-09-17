@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { FiSearch, FiSettings, FiPaperclip, FiUsers, FiMessageCircle } from 'react-icons/fi';
 import { searchData, filterOptions } from '../data/searchData';
 import SearchResultItem from './SearchResultItem';
@@ -19,6 +19,8 @@ const SearchCard = () => {
   const [showCursor, setShowCursor] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const typingTimerRef = useRef(null);
+  const counterTimerRef = useRef(null);
+  const [displayCounts, setDisplayCounts] = useState({ all: 0, files: 0, people: 0, chats: 0 });
 
   // Filter and search logic
   const filteredResults = useMemo(() => {
@@ -84,6 +86,41 @@ const SearchCard = () => {
     if (category === 'chats') return items.filter(i => i.type === 'chat').length;
     return 0;
   };
+
+  // Count-up animation: always count from 0 → target when inputs change
+  useEffect(() => {
+    const target = {
+      all: getCountByCategory('all'),
+      files: getCountByCategory('files'),
+      people: getCountByCategory('people'),
+      chats: getCountByCategory('chats')
+    };
+
+    // Reset to 0 before counting up
+    setDisplayCounts({ all: 0, files: 0, people: 0, chats: 0 });
+    if (counterTimerRef.current) clearInterval(counterTimerRef.current);
+    counterTimerRef.current = setInterval(() => {
+      setDisplayCounts((prev) => {
+        const next = { ...prev };
+        let done = true;
+        (['all', 'files', 'people', 'chats']).forEach((k) => {
+          if (next[k] < target[k]) {
+            next[k] = next[k] + 1; // step strictly 1, so user sees 1,2,3,...
+            done = false;
+          }
+        });
+        if (done) {
+          clearInterval(counterTimerRef.current);
+        }
+        return next;
+      });
+    }, 70);
+
+    return () => {
+      if (counterTimerRef.current) clearInterval(counterTimerRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm, activeFilter, enabledFilters]);
 
   const handleClearSearch = () => {
     setSearchTerm('');
@@ -170,7 +207,7 @@ const SearchCard = () => {
           className={`filter-tab ${activeFilter === 'all' ? 'active' : ''}`}
           onClick={() => setActiveFilter('all')}
         >
-          <span className="tab-label">All</span> <span className="count-badge">{getCountByCategory('all')}</span>
+          <span className="tab-label">All</span> <span className="count-badge">{displayCounts.all}</span>
         </button>
         {enabledFilters.files && (
           <button
@@ -178,7 +215,7 @@ const SearchCard = () => {
             onClick={() => setActiveFilter('files')}
           >
             <FiPaperclip className="tab-icon" />
-            <span className="tab-label">Files</span> <span className="count-badge">{getCountByCategory('files')}</span>
+            <span className="tab-label">Files</span> <span className="count-badge">{displayCounts.files}</span>
           </button>
         )}
         {enabledFilters.people && (
@@ -187,7 +224,7 @@ const SearchCard = () => {
             onClick={() => setActiveFilter('people')}
           >
             <FiUsers className="tab-icon" />
-            <span className="tab-label">People</span> <span className="count-badge">{getCountByCategory('people')}</span>
+            <span className="tab-label">People</span> <span className="count-badge">{displayCounts.people}</span>
           </button>
         )}
         {enabledFilters.chats && (
@@ -196,7 +233,7 @@ const SearchCard = () => {
             onClick={() => setActiveFilter('chats')}
           >
             <FiMessageCircle className="tab-icon" />
-            <span className="tab-label">Chats</span> <span className="count-badge">{getCountByCategory('chats')}</span>
+            <span className="tab-label">Chats</span> <span className="count-badge">{displayCounts.chats}</span>
           </button>
         )}
         <button 
