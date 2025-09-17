@@ -45,17 +45,6 @@ const SearchResultItem = ({ item, searchTerm, highlightText, onCopy }) => {
     }
   };
 
-  const getStatusText = () => {
-    if (item.type === 'person') {
-      return item.status;
-    } else if (item.type === 'folder') {
-      return `${item.fileCount} Files`;
-    } else if (item.type === 'file') {
-      return `in ${item.location} • ${item.lastEdited ? `Edited ${item.lastEdited}` : `Added ${item.lastEdited}`}`;
-    }
-    return '';
-  };
-
   const getSecondaryText = () => {
     if (item.type === 'folder') {
       return `in ${item.location} • Edited ${item.lastEdited}`;
