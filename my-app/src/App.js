@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <a
         className="github-link"
-        href="https://github.com/shivaniSshekhawat"
+        href="https://github.com/shivaniSshekhawat/myApp"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Open GitHub profile @shivaniSshekhawat"
