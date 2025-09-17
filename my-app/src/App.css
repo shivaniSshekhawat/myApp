@@ -205,7 +205,7 @@ body {
   background: #f3f4f6;
   color: #6b7280;
   padding: 1px 6px;
-  border-radius: 10px;
+  border-radius: 4px;
   font-weight: 600;
   font-size: 12px;
 }
@@ -289,6 +289,34 @@ body {
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
+/* Simple tooltips */
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111827;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  margin-bottom: 6px;
+}
+
+.tooltip-container:hover .tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px);
+}
+
 .link-icon, .newtab-icon {
   width: 14px;
   height: 14px;
@@ -317,7 +345,7 @@ body {
 /* Filter Dropdown */
 .filter-dropdown {
   position: absolute;
-  top: 120px;
+  top: 130px;
   right: 0;
   background: white;
   border-radius: 12px;

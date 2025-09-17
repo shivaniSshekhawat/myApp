@@ -78,16 +78,10 @@ const SearchResultItem = ({ item, searchTerm, highlightText, onCopy }) => {
       </div>
       {(item.type === 'file' || item.type === 'folder') && (
         <div className="item-actions" aria-hidden="true">
-          <div className="copy-button-container">
-            {copied && (
-              <div className="copy-toast-local">
-                <span className="check-icon">✓</span>
-                <span>Link copied!</span>
-              </div>
-            )}
+          <div className={`copy-button-container tooltip-container ${copied ? 'show' : ''}`}>
             <button
               className="action-btn"
-              title="Copy link"
+              aria-label="Copy link"
               onClick={async (e) => {
                 e.stopPropagation();
                 try {
@@ -97,29 +91,31 @@ const SearchResultItem = ({ item, searchTerm, highlightText, onCopy }) => {
                   }
                   setCopied(true);
                   setTimeout(() => setCopied(false), 1200);
-                  if (onCopy) onCopy();
                 } catch (err) {
                   setCopied(true);
                   setTimeout(() => setCopied(false), 1200);
-                  if (onCopy) onCopy();
                 }
               }}
             >
               <FiLink className="action-icon" />
             </button>
+            <span className="tooltip">{copied ? (<><span className="check-icon">✓</span><span style={{marginLeft:4}}>Link copied!</span></>) : 'Copy link'}</span>
           </div>
-          <button
-            className="action-btn has-text"
-            title="Open in new tab"
-            onClick={(e) => {
-              e.stopPropagation();
-              const url = `${window.location.origin}/item/${item.id}`;
-              window.open(url, '_blank');
-            }}
-          >
-            <FiExternalLink className="action-icon" />
-            <span className="action-label">New Tab</span>
-          </button>
+          <div className="tooltip-container">
+            <button
+              className="action-btn has-text"
+              aria-label="Open in new tab"
+              onClick={(e) => {
+                e.stopPropagation();
+                const url = `${window.location.origin}/item/${item.id}`;
+                window.open(url, '_blank');
+              }}
+            >
+              <FiExternalLink className="action-icon" />
+              <span className="action-label">New Tab</span>
+            </button>
+            <span className="tooltip">Open in new tab</span>
+          </div>
           {copied && null}
         </div>
       )}
