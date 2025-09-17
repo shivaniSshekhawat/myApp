@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { FiFolder, FiImage, FiPlay, FiUsers, FiLink, FiExternalLink } from 'react-icons/fi';
+import { FiLink, FiExternalLink } from 'react-icons/fi';
+import { FaFolder, FaImage, FaPlay, FaUser } from 'react-icons/fa';
 
 const SearchResultItem = ({ item, searchTerm, highlightText, onCopy }) => {
   const [avatarError, setAvatarError] = useState(false);
@@ -10,7 +11,7 @@ const SearchResultItem = ({ item, searchTerm, highlightText, onCopy }) => {
     if (!item.avatar || avatarError) {
       return (
         <div className="avatar placeholder">
-          <FiUsers className="avatar-icon" />
+          <FaUser className="avatar-icon" />
         </div>
       );
     }
@@ -31,16 +32,16 @@ const SearchResultItem = ({ item, searchTerm, highlightText, onCopy }) => {
           <div className={`status-dot ${item.statusColor}`}></div>
         </div>;
       case 'folder':
-        return <FiFolder className="item-icon folder-icon" />;
+        return <FaFolder className="item-icon folder-icon" />;
       case 'file':
         if (item.fileType === 'image') {
-          return <FiImage className="item-icon image-icon" />;
+          return <FaImage className="item-icon image-icon" />;
         } else if (item.fileType === 'video') {
-          return <FiPlay className="item-icon video-icon" />;
+          return <FaPlay className="item-icon video-icon" />;
         }
-        return <FiFolder className="item-icon" />;
+        return <FaFolder className="item-icon" />;
       default:
-        return <FiUsers className="item-icon" />;
+        return <FaUser className="item-icon" />;
     }
   };
 
@@ -72,6 +73,9 @@ const SearchResultItem = ({ item, searchTerm, highlightText, onCopy }) => {
       <div className="item-content">
         <div className="item-name">
           {highlightText(item.name, searchTerm)}
+          {item.type === 'folder' && (
+            <span className="file-count" style={{ marginLeft: 8 }}>{`${item.fileCount} Files`}</span>
+          )}
         </div>
         {item.type === 'person' ? (
           <div className="item-status">
@@ -79,35 +83,42 @@ const SearchResultItem = ({ item, searchTerm, highlightText, onCopy }) => {
           </div>
         ) : (
           <div className="item-meta">
-            <span className="file-count">{getStatusText()}</span>
             <span className="item-location">{getSecondaryText()}</span>
           </div>
         )}
       </div>
       {(item.type === 'file' || item.type === 'folder') && (
         <div className="item-actions" aria-hidden="true">
-          <button
-            className="action-btn"
-            title="Copy link"
-            onClick={async (e) => {
-              e.stopPropagation();
-              try {
-                const url = `${window.location.origin}/item/${item.id}`;
-                if (navigator?.clipboard?.writeText) {
-                  await navigator.clipboard.writeText(url);
+          <div className="copy-button-container">
+            {copied && (
+              <div className="copy-toast-local">
+                <span className="check-icon">✓</span>
+                <span>Link copied!</span>
+              </div>
+            )}
+            <button
+              className="action-btn"
+              title="Copy link"
+              onClick={async (e) => {
+                e.stopPropagation();
+                try {
+                  const url = `${window.location.origin}/item/${item.id}`;
+                  if (navigator?.clipboard?.writeText) {
+                    await navigator.clipboard.writeText(url);
+                  }
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 1200);
+                  if (onCopy) onCopy();
+                } catch (err) {
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 1200);
+                  if (onCopy) onCopy();
                 }
-                setCopied(true);
-                setTimeout(() => setCopied(false), 1200);
-                if (onCopy) onCopy();
-              } catch (err) {
-                setCopied(true);
-                setTimeout(() => setCopied(false), 1200);
-                if (onCopy) onCopy();
-              }
-            }}
-          >
-            <FiLink className="action-icon" />
-          </button>
+              }}
+            >
+              <FiLink className="action-icon" />
+            </button>
+          </div>
           <button
             className="action-btn has-text"
             title="Open in new tab"

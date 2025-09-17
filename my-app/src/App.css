@@ -86,6 +86,21 @@ body {
   z-index: 1;
 }
 
+.spinner {
+  position: absolute;
+  left: 12px;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(0,0,0,0.1);
+  border-top-color: rgba(0,0,0,0.5);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 .search-input {
   width: 100%;
   padding: 8px 8px;
@@ -108,6 +123,7 @@ body {
   z-index: 1;
   transition: color 0.2s ease;
   text-decoration: underline;
+  padding: 8px 10px;
 }
 
 .clear-button:hover {
@@ -119,10 +135,10 @@ body {
   right: 12px;
   background: none;
   border: none;
-  color: #666;
+  color: #9aa0a6;
   cursor: pointer;
   font-size: 18px;
-  padding: 4px;
+  padding: 8px;
   z-index: 1;
   transition: all 0.2s ease;
   border-radius: 4px;
@@ -213,7 +229,7 @@ body {
   border: none;
   color: #374151;
   font-size: 12px;
-  padding: 8px;
+  padding: 10px;
   border-radius: 8px;
   cursor: pointer;
   width: 32px;
@@ -229,6 +245,35 @@ body {
   width: auto;
   gap: 8px;
   padding: 6px 10px;
+}
+
+.copy-button-container {
+  position: relative;
+  display: inline-block;
+}
+
+.copy-toast-local {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111827;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  animation: toastIn 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  white-space: nowrap;
+}
+
+.check-icon {
+  color: #fff;
+  font-size: 14px;
 }
 
 .action-btn:hover { background: #e5e7eb; }
@@ -539,16 +584,16 @@ body {
 
 .item-icon {
   font-size: 20px;
-  color: #9ca3af;
+  color: #6b7280;
   transition: all 0.2s ease;
 }
 
 .search-result-item:hover .item-icon {
-  transform: scale(1.1);
+  transform: scale(1.08);
 }
 
 .folder-icon, .image-icon, .video-icon {
-  color: #9ca3af;
+  color: #6b7280;
 }
 
 .item-content {
@@ -625,27 +670,7 @@ body {
 .no-results {
   padding: 20px 0;
 }
-.top-toast {
-  position: absolute;
-  top: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #111827;
-  color: #fff;
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  animation: toastIn 0.15s ease;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.top-toast::before {
-  content: '✓';
-  font-size: 14px;
-}
+/* removed global top toast */
 
 @keyframes toastIn {
   from { opacity: 0; transform: translateX(-50%) translateY(-6px); }
@@ -677,7 +702,7 @@ body {
   color: #374151;
   background: #fff;
   position: relative;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.04), inset 0 -2px 0 rgba(0,0,0,0.06);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04), inset 0 -3px 0 rgba(0,0,0,0.06);
 }
 
 .quick-key::before {
@@ -689,6 +714,8 @@ body {
   box-shadow: 0 6px 0 rgba(0,0,0,0.06);
   pointer-events: none;
 }
+
+/* removed extra card under S key */
 
 .quick-label { color: #6b7280; font-size: 13px; background: none; white-space: nowrap; }
 

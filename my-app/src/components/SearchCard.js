@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { FiSearch, FiSettings, FiPaperclip, FiUsers, FiMessageCircle } from 'react-icons/fi';
 import { searchData, filterOptions } from '../data/searchData';
 import SearchResultItem from './SearchResultItem';
@@ -15,9 +15,10 @@ const SearchCard = () => {
     lists: false
   });
   const [showOnlySearch, setShowOnlySearch] = useState(false);
-  const [toast, setToast] = useState({ visible: false, message: '' });
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [showCursor, setShowCursor] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const typingTimerRef = useRef(null);
 
   // Filter and search logic
   const filteredResults = useMemo(() => {
@@ -89,10 +90,7 @@ const SearchCard = () => {
     setShowOnlySearch(true);
   };
 
-  const handleShowToast = (message) => {
-    setToast({ visible: true, message });
-    setTimeout(() => setToast({ visible: false, message: '' }), 1200);
-  };
+  // removed global toast; per-row toasts are handled inside items
 
   const handleFilterToggle = (filterId) => {
     setEnabledFilters(prev => ({
@@ -130,21 +128,29 @@ const SearchCard = () => {
           style={{ transform: `translate(${cursorPos.x}px, ${cursorPos.y}px)` }}
         />
       )}
-      {toast.visible && (
-        <div className="top-toast" role="status">{toast.message}</div>
-      )}
       {/* Search Bar */}
       <div className="search-bar">
-        <FiSearch className="search-icon" />
+        {!isLoading && <FiSearch className="search-icon" />}
         <input
           type="text"
           value={searchTerm}
-          onChange={(e) => { setSearchTerm(e.target.value); if (e.target.value) setShowOnlySearch(false); }}
-          onFocus={() => setShowOnlySearch(false)}
+          onChange={(e) => {
+            const value = e.target.value;
+            setSearchTerm(value);
+            if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
+            if (showOnlySearch) {
+              setIsLoading(true);
+              typingTimerRef.current = setTimeout(() => {
+                setIsLoading(false);
+                if (value) setShowOnlySearch(false);
+              }, 500);
+            }
+          }}
           placeholder="Searching is easier"
           className="search-input"
         />
-        {searchTerm && (
+        {isLoading && <div className="spinner" aria-label="Searching" />}
+        {searchTerm && !showOnlySearch && (
           <button onClick={handleClearSearch} className="clear-button" aria-label="Clear search">
             Clear
           </button>
@@ -223,7 +229,6 @@ const SearchCard = () => {
               item={item}
               searchTerm={searchTerm}
               highlightText={highlightText}
-              onCopy={() => handleShowToast('Link copied!')}
             />
           ))
         ) : (
